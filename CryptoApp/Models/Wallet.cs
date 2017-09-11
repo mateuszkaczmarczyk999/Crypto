@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public class Class1
+public class Wallet
 {
-	public Class1()
+    public int Id { get; set; }
+    public ArrayList<Currency> MyCurrencies { get; set; }
+	public Wallet()
 	{
-		//
-		// TODO: Add constructor logic here
-		//
+		
 	}
 }
