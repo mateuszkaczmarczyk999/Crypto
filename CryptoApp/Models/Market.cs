@@ -9,29 +9,33 @@ namespace CryptoApp.Models
             new Lazy<Market>(() => new Market());
 
         public Dictionary<RatesSignatures, decimal> Rates { get; set; }
-    }
 
-    public enum CurrenciesSignatures
-    {
-        Eur,
-        Eth,
-        Btc,
-        Ltc
-    }
+        public static Market GetInstance()
+        {
+            return _instance.Value;
+        }
 
-    public enum RatesSignatures
-    {
-        EurEth,
-        EurBtc,
-        EurLtc,
-        EthEur,
-        BtcEur,
-        LtcEur,
-        EthBtc,
-        EthLtc,
-        BtcEth,
-        BtcLtc,
-        LtcEth,
-        LtcBtc
+        public enum CurrenciesSignatures
+        {
+            Eur,
+            Eth,
+            Btc,
+            Ltc
+        }
+
+        public enum RatesSignatures
+        {
+            EurEth,
+            EurBtc,
+            EurLtc,
+            EthEur,
+            BtcEur,
+            LtcEur,
+            EthBtc,
+            EthLtc,
+            BtcEth,
+            BtcLtc,
+            LtcEth,
+            LtcBtc
+        }
     }
-}
