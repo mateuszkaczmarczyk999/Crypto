@@ -15,7 +15,26 @@ namespace CryptoApp.Models
             return _instance.Value;
         }
 
-        public enum CurrenciesSignatures
+
+        public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, Wallet wallet)
+        {
+            if (wallet.IsEnoughCurrency(toSell, quantity))
+            {
+                var rateSignatureString = toSell.ToString() + toBuy.ToString();
+
+                RatesSignatures rateSignature;
+                Enum.TryParse(rateSignatureString, out rateSignature);
+
+                wallet.SubstractFunds(toSell, quantity);
+                wallet.AddFunds(toBuy, quantity * Rates[rateSignature]);
+
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public enum CurrenciesSignatures
         {
             Eur,
             Eth,
@@ -23,7 +42,7 @@ namespace CryptoApp.Models
             Ltc
         }
 
-        public enum RatesSignatures
+    public enum RatesSignatures
         {
             EurEth,
             EurBtc,
