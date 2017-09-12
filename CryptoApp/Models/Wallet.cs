@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace CryptoApp.Models
 {
@@ -24,6 +23,20 @@ namespace CryptoApp.Models
             return false;
         }
 
-        
+        bool SubstractFunds(CurrencySignatures toSell, decimal quantity)
+        {
+            try
+            {
+                MyCurrencies[toSell] = Decimal.Substract(MyCurrencies[toSell], quantity);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+
     }
 }
