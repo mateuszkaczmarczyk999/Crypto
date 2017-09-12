@@ -1,4 +1,5 @@
 ﻿using System;
+using CryptoApp.Enums;
 
 namespace CryptoApp.Models
 {
@@ -26,13 +27,5 @@ namespace CryptoApp.Models
             }
             return false;
         }
-    }
-
-    public enum CurrenciesSignatures
-    {
-        Eur,
-        Eth,
-        Btc,
-        Ltc
     }
 }
