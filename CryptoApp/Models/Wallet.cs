@@ -14,16 +14,16 @@ namespace CryptoApp.Models
             
         }
 
-        bool IsEnoughFunds(CurrencySignatures toSell, decimal quantity)
+        bool HasEnoughFunds(CurrencySignatures toSell, decimal quantity)
         {
-            if (MyCurrencies.TryGetValue(toSell, out decimal actual))
-            {
-                if (actual >= toSell)
+            
+                if (MyCurrencies[toSell] >= toSell)
                 {
                     return true;
                 }
-            }
             return false;
         }
+
+        
     }
 }
