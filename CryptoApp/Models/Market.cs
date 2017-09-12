@@ -27,5 +27,10 @@ namespace CryptoApp.Models
             }
             return false;
         }
+
+        public void UpdateRates(decimal[][] updatedRates)
+        {
+            Rates = updatedRates;
+        }
     }
 }
