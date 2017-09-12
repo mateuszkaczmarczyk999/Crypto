@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CryptoApp.Enums;
 
 namespace CryptoApp.Models
@@ -28,9 +29,9 @@ namespace CryptoApp.Models
             return false;
         }
 
-        public void UpdateRates(decimal[][] updatedRates)
+        public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
         {
-            Rates = updatedRates;
+            Rates = args.Rates;
         }
     }
 }
