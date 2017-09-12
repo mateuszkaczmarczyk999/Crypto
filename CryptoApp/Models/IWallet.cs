@@ -1,11 +1,13 @@
 ﻿using System;
 
-
-public interface IWallet
+namespace CryptoApp.Models
 {
-    bool IsEnoughFunds(CurrencySignatures toSell, decimal quantity);
+    public interface IWallet
+    {
+        bool IsEnoughFunds(CurrencySignatures toSell, decimal quantity);
 
-    bool SubstractFunds(CurrencySignatures toSell, decimal quantity);
+        bool SubstractFunds(CurrencySignatures toSell, decimal quantity);
 
-    bool AddFunds(CurrencySignatures toBuy, decimal quantity);
+        bool AddFunds(CurrencySignatures toBuy, decimal quantity);
+    }
 }

@@ -1,11 +1,17 @@
 ﻿using System;
 
-public class Wallet
+namespace CryptoApp.Models
 {
-    public string Id { get; set; }
-    public Dictionary MyCurrencies { get; set; }
-	public Wallet()
-	{
-		
-	}
+
+    public class Wallet : IWallet
+    {
+        public string Id { get; set; }
+        public Dictionary<CurrencySignatures, decimal>  MyCurrencies { get; set; }
+
+        public Wallet()
+        {
+
+        }
+
+    }
 }
