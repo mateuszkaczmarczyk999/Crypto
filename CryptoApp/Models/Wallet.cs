@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CryptoApp.Models
 {
@@ -10,8 +11,19 @@ namespace CryptoApp.Models
 
         public Wallet()
         {
-
+            
         }
 
+        bool IsEnoughFunds(CurrencySignatures toSell, decimal quantity)
+        {
+            if (MyCurrencies.TryGetValue(toSell, out decimal actual))
+            {
+                if (actual >= toSell)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
