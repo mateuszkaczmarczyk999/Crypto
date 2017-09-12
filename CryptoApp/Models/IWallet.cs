@@ -4,7 +4,7 @@ namespace CryptoApp.Models
 {
     public interface IWallet
     {
-        bool IsEnoughFunds(CurrencySignatures toSell, decimal quantity);
+        bool HasEnoughFunds(CurrencySignatures toSell, decimal quantity);
 
         bool SubstractFunds(CurrencySignatures toSell, decimal quantity);
 
