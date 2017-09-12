@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CryptoApp.Models
 {
@@ -8,7 +7,7 @@ namespace CryptoApp.Models
         private static readonly Lazy<Market> _instance =
             new Lazy<Market>(() => new Market());
 
-        public Dictionary<RatesSignatures, decimal> Rates { get; set; }
+        public decimal[][] Rates;
 
         public static Market GetInstance()
         {
@@ -16,17 +15,12 @@ namespace CryptoApp.Models
         }
 
 
-        public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, Wallet wallet)
+        public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, IWallet wallet)
         {
-            if (wallet.IsEnoughCurrency(toSell, quantity))
+            if (wallet.IsEnoughFunds(toSell, quantity))
             {
-                var rateSignatureString = toSell.ToString() + toBuy.ToString();
-
-                RatesSignatures rateSignature;
-                Enum.TryParse(rateSignatureString, out rateSignature);
-
                 wallet.SubstractFunds(toSell, quantity);
-                wallet.AddFunds(toBuy, quantity * Rates[rateSignature]);
+                wallet.AddFunds(toBuy, quantity * Rates[(int)toSell][(int)toBuy]);
 
                 return true;
             }
@@ -35,26 +29,10 @@ namespace CryptoApp.Models
     }
 
     public enum CurrenciesSignatures
-        {
-            Eur,
-            Eth,
-            Btc,
-            Ltc
-        }
-
-    public enum RatesSignatures
-        {
-            EurEth,
-            EurBtc,
-            EurLtc,
-            EthEur,
-            BtcEur,
-            LtcEur,
-            EthBtc,
-            EthLtc,
-            BtcEth,
-            BtcLtc,
-            LtcEth,
-            LtcBtc
-        }
+    {
+        Eur,
+        Eth,
+        Btc,
+        Ltc
     }
+}
