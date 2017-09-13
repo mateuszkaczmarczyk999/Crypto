@@ -31,7 +31,8 @@ namespace CryptoApp.Models
 
         public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
         {
-            Rates = args.Rates;
+            Rates[(int)args.ChangeFrom][(int)args.ChangeTo] = args.Value;
+            Rates[(int)args.ChangeTo][(int)args.ChangeFrom] = 1 / args.Value;
         }
     }
 }
