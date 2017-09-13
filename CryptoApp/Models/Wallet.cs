@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CryptoApp.Errors;
 
 namespace CryptoApp.Models
 {
@@ -23,18 +24,24 @@ namespace CryptoApp.Models
             return false;
         }
 
-        public bool SubstractFunds(CurrencySignatures toSell, decimal quantity)
+        public void SubstractFunds(CurrencySignatures toSell, decimal quantity)
         {
-            try
+            if (HasEnoughFunds(toSell, quantity))
             {
                 MyCurrencies[toSell] = Decimal.Subtract(MyCurrencies[toSell], quantity);
-                return true;
             }
-            catch
+            else
             {
-                return false;
+                throw new NotEnoughFundsException();
             }
 
+
+
+        }
+        
+        public void AddFunds(CurrencySignatures toBuy, decimal quantity)
+        {
+            MyCurrencies[toBuy] = Decimal.Add(MyCurrencies[toBuy], quantity);
         }
 
 
