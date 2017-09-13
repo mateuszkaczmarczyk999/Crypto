@@ -6,8 +6,8 @@ namespace CryptoApp.Models
     {
         bool HasEnoughFunds(CurrencySignatures toSell, decimal quantity);
 
-        bool SubstractFunds(CurrencySignatures toSell, decimal quantity);
+        void SubstractFunds(CurrencySignatures toSell, decimal quantity);
 
-        bool AddFunds(CurrencySignatures toBuy, decimal quantity);
+        void AddFunds(CurrencySignatures toBuy, decimal quantity);
     }
 }
