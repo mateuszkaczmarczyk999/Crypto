@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CryptoApp.Models
+﻿namespace CryptoApp.Models
 {
     public interface IWallet
     {
