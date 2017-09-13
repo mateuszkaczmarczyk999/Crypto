@@ -207,14 +207,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Enums\CurrenciesSignatures.cs" />
+      <Compile Include="Errors\NotEnoughFundsException.cs"/>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CurrenciesRatesEvantArgs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+      <Compile Include="Models\IWallet.cs"/>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Market.cs" />
+      <Compile Include="Models\Wallet.cs"/>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
