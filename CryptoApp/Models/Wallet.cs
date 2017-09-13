@@ -6,13 +6,19 @@ namespace CryptoApp.Models
     public class Wallet : IWallet
     {
         public string Id { get; set; }
-        private Dictionary<CurrencySignatures, decimal> MyCurrencies { get; set; }
+        public Dictionary<CurrencySignatures, decimal> MyCurrencies { get; private set; }
+
+        public Wallet()
+        {
+            foreach (var currencySignature in CurrencySignatures)
+            {
+                MyCurrencies.Add(currencySignature,0);
+            }
+        }
 
         public bool HasEnoughFunds(CurrencySignatures toSell, decimal quantity)
         {
-            if (MyCurrencies[toSell] >= quantity)
-                return true;
-            return false;
+            return MyCurrencies[toSell] >= quantity;
         }
 
         public void SubstractFunds(CurrencySignatures toSell, decimal quantity)
