@@ -20,20 +20,20 @@ namespace CryptoApp.Models
 
         public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
         {
-            return MyFunds[toSell] >= quantity;
+            return MyFunds.Find(x=>x.CurrencySignature==toSell).Value >= quantity;
         }
 
         public void SubstractFunds(CurrenciesSignatures toSell, decimal quantity)
         {
             if (HasEnoughFunds(toSell, quantity))
-                MyFunds[toSell] = decimal.Subtract(MyFunds[toSell], quantity);
+                MyFunds.Find(x => x.CurrencySignature == toSell).Value -= quantity;
             else
                 throw new NotEnoughFundsException();
         }
 
         public void AddFunds(CurrenciesSignatures toBuy, decimal quantity)
         {
-            MyFunds[toBuy] = decimal.Add(MyFunds[toBuy], quantity);
+            MyFunds.Find(x => x.CurrencySignature == toBuy).Value += quantity;
         }
     }
 }
