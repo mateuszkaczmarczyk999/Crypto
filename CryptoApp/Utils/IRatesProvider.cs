@@ -1,7 +1,12 @@
-﻿namespace CryptoApp.Utils
+﻿using System;
+using System.Configuration;
+using CryptoApp.Models;
+
+namespace CryptoApp.Utils
 {
-    public interface RatesProvider
+    public interface IRatesProvider
     {
-        
+        event EventHandler<RatesEventArgs> RatesUpdated;
+
     }
 }
