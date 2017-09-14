@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CryptoApp.Enums;
 using CryptoApp.Errors;
 
@@ -6,16 +8,15 @@ namespace CryptoApp.Models
 {
     public class Wallet : IWallet
     {
-        public string Id { get; set; }
-        public Dictionary<CurrenciesSignatures, decimal> MyCurrencies { get; private set; }
-
         public Wallet()
         {
-            foreach (var currencySignature in CurrenciesSignatures)
-            {
-                MyCurrencies.Add(currencySignature,0);
-            }
+            MyCurrencies = new Dictionary<CurrenciesSignatures, decimal>();
+            foreach (var currencySignature in Enum.GetValues(typeof(CurrenciesSignatures)).Cast<CurrenciesSignatures>())
+                MyCurrencies.Add(currencySignature, 0);
         }
+
+        public string Id { get; set; }
+        public Dictionary<CurrenciesSignatures, decimal> MyCurrencies { get; }
 
         public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
         {
