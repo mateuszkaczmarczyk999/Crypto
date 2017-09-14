@@ -4,7 +4,7 @@ using CryptoApp.Enums;
 
 namespace CryptoApp.Models
 {
-    public class Market
+    public class Market : IMarket
     {
         private static readonly Lazy<Market> _instance =
             new Lazy<Market>(() => new Market());
