@@ -17,7 +17,7 @@ namespace CryptoApp.Models
         }
 
 
-        public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, IWallet wallet)
+        public bool Exchange(CurrencySignature toSell, CurrencySignature toBuy, decimal quantity, IWallet wallet)
         {
             if (wallet.IsEnoughFunds(toSell, quantity))
             {
@@ -29,7 +29,7 @@ namespace CryptoApp.Models
             return false;
         }
 
-        public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
+        public void OnRatesUpdated(object source, RatesEventArgs args)
         {
             Rates[(int)args.ChangeFrom][(int)args.ChangeTo] = args.Value;
             Rates[(int)args.ChangeTo][(int)args.ChangeFrom] = 1 / args.Value;
