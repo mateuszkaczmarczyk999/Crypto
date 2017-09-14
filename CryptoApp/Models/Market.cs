@@ -19,7 +19,7 @@ namespace CryptoApp.Models
 
         public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, IWallet wallet)
         {
-            if (wallet.IsEnoughFunds(toSell, quantity))
+            if (wallet.HasEnoughFunds(toSell, quantity))
             {
                 wallet.SubstractFunds(toSell, quantity);
                 wallet.AddFunds(toBuy, quantity * Rates[(int)toSell][(int)toBuy]);
