@@ -27,7 +27,7 @@ namespace CryptoRatesProvider
                 Console.WriteLine("connected");
                 var subObject = new { subs = _subscriberStrings};
                 _socket.Emit("SubAdd", JObject.FromObject(subObject));
-
+                
             });
 
             _socket.On("m", (data) =>

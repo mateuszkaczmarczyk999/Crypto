@@ -60,7 +60,9 @@
     <Compile Include="Enums\PriceAction.cs" />
     <Compile Include="IRatesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatePair.cs" />
     <Compile Include="RatesEventArgs.cs" />
+    <Compile Include="RatesProviderServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
