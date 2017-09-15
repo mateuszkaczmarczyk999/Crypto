@@ -77,6 +77,12 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -113,6 +119,11 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -207,17 +218,40 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Enums\CurrenciesSignatures.cs" />
-      <Compile Include="Errors\NotEnoughFundsException.cs"/>
+    <Compile Include="Errors\NotEnoughFundsException.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709141151212_WalletTestMigration.cs" />
+    <Compile Include="Migrations\201709141151212_WalletTestMigration.Designer.cs">
+      <DependentUpon>201709141151212_WalletTestMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141229300_RefactoredWalletTest.cs" />
+    <Compile Include="Migrations\201709141229300_RefactoredWalletTest.Designer.cs">
+      <DependentUpon>201709141229300_RefactoredWalletTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141258011_ChangeTestId.cs" />
+    <Compile Include="Migrations\201709141258011_ChangeTestId.Designer.cs">
+      <DependentUpon>201709141258011_ChangeTestId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141301296_CurrencyContext.cs" />
+    <Compile Include="Migrations\201709141301296_CurrencyContext.Designer.cs">
+      <DependentUpon>201709141301296_CurrencyContext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141304001_WalletRestored.cs" />
+    <Compile Include="Migrations\201709141304001_WalletRestored.Designer.cs">
+      <DependentUpon>201709141304001_WalletRestored.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CurrenciesRatesEvantArgs.cs" />
+    <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-      <Compile Include="Models\IWallet.cs"/>
+    <Compile Include="Models\IWallet.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Market.cs" />
-      <Compile Include="Models\Wallet.cs"/>
+    <Compile Include="Models\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -300,6 +334,23 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709141151212_WalletTestMigration.resx">
+      <DependentUpon>201709141151212_WalletTestMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141229300_RefactoredWalletTest.resx">
+      <DependentUpon>201709141229300_RefactoredWalletTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141258011_ChangeTestId.resx">
+      <DependentUpon>201709141258011_ChangeTestId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141301296_CurrencyContext.resx">
+      <DependentUpon>201709141301296_CurrencyContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141304001_WalletRestored.resx">
+      <DependentUpon>201709141304001_WalletRestored.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
