@@ -14,7 +14,7 @@ namespace CryptoApp.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
-            userIdentity.AddClaim(new Claim("WalletId", this.UserWallet.Id.ToString()));
+            userIdentity.AddClaim(new Claim("UserWalletId", this.UserWallet.Id.ToString()));
 
             return userIdentity;
         }
@@ -27,9 +27,10 @@ namespace CryptoApp.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         { }
         public DbSet<Wallet> Wallets { get; set; }
-        
+        public DbSet<Currency> Currencies { get; set; }
 
-    public static ApplicationDbContext Create()
+
+        public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
