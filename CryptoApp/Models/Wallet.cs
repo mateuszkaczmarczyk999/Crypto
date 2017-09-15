@@ -16,7 +16,7 @@ namespace CryptoApp.Models
         }
 
         public string Id { get; set; }
-        public List<Currency> MyFunds { get; }
+        public List<Currency> MyFunds { get; set; }
 
         public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
         {
