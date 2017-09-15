@@ -20,7 +20,7 @@ namespace CryptoApp.Models
 
         public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
         {
-            return MyFunds.Find(x=>x.CurrencySignature==toSell).Value >= quantity;
+            return MyFunds.Find(x => x.CurrencySignature==toSell).Value >= quantity;
         }
 
         public void SubstractFunds(CurrenciesSignatures toSell, decimal quantity)
