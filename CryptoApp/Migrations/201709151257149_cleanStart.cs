@@ -3,10 +3,23 @@ namespace CryptoApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class WalletTestMigration : DbMigration
+    public partial class cleanStart : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Currencies",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CurrencySignature = c.Int(nullable: false),
+                        Value = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Wallet_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Wallets", t => t.Wallet_Id)
+                .Index(t => t.Wallet_Id);
+            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -46,7 +59,7 @@ namespace CryptoApp.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        UserWallet_Id = c.String(maxLength: 128),
+                        UserWallet_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Wallets", t => t.UserWallet_Id)
@@ -82,7 +95,7 @@ namespace CryptoApp.Migrations
                 "dbo.Wallets",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -91,6 +104,7 @@ namespace CryptoApp.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUsers", "UserWallet_Id", "dbo.Wallets");
+            DropForeignKey("dbo.Currencies", "Wallet_Id", "dbo.Wallets");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
@@ -102,12 +116,14 @@ namespace CryptoApp.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Currencies", new[] { "Wallet_Id" });
             DropTable("dbo.Wallets");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Currencies");
         }
     }
 }

@@ -7,13 +7,13 @@ namespace CryptoApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class WalletTestMigration : IMigrationMetadata
+    public sealed partial class cleanStart : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(WalletTestMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(cleanStart));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709141151212_WalletTestMigration"; }
+            get { return "201709151257149_cleanStart"; }
         }
         
         string IMigrationMetadata.Source
