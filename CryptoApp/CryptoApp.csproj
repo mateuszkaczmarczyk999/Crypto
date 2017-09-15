@@ -250,25 +250,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709141151212_WalletTestMigration.cs" />
-    <Compile Include="Migrations\201709141151212_WalletTestMigration.Designer.cs">
-      <DependentUpon>201709141151212_WalletTestMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141229300_RefactoredWalletTest.cs" />
-    <Compile Include="Migrations\201709141229300_RefactoredWalletTest.Designer.cs">
-      <DependentUpon>201709141229300_RefactoredWalletTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141258011_ChangeTestId.cs" />
-    <Compile Include="Migrations\201709141258011_ChangeTestId.Designer.cs">
-      <DependentUpon>201709141258011_ChangeTestId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141301296_CurrencyContext.cs" />
-    <Compile Include="Migrations\201709141301296_CurrencyContext.Designer.cs">
-      <DependentUpon>201709141301296_CurrencyContext.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709141304001_WalletRestored.cs" />
-    <Compile Include="Migrations\201709141304001_WalletRestored.Designer.cs">
-      <DependentUpon>201709141304001_WalletRestored.cs</DependentUpon>
+    <Compile Include="Migrations\201709151257149_cleanStart.cs" />
+    <Compile Include="Migrations\201709151257149_cleanStart.Designer.cs">
+      <DependentUpon>201709151257149_cleanStart.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -363,20 +347,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709141151212_WalletTestMigration.resx">
-      <DependentUpon>201709141151212_WalletTestMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141229300_RefactoredWalletTest.resx">
-      <DependentUpon>201709141229300_RefactoredWalletTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141258011_ChangeTestId.resx">
-      <DependentUpon>201709141258011_ChangeTestId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141301296_CurrencyContext.resx">
-      <DependentUpon>201709141301296_CurrencyContext.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709141304001_WalletRestored.resx">
-      <DependentUpon>201709141304001_WalletRestored.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709151257149_cleanStart.resx">
+      <DependentUpon>201709151257149_cleanStart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
