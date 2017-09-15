@@ -10,11 +10,13 @@ namespace CryptoRatesProvider
         private const string Host = "wss://streamer.cryptocompare.com";
         private readonly CryptoCompareDataParser _dataParser;
         private Socket _socket;
+        private readonly string[] _subscriberStrings;
 
 
-        public CryptoCompareRatesProvider()
+        public CryptoCompareRatesProvider(CryptoCompareDataParser parser, string[] subscriberStrings)
         {
-            _dataParser = new CryptoCompareDataParser();
+            _dataParser = parser;
+            _subscriberStrings = subscriberStrings;
         }
 
         public void StartService()
@@ -23,7 +25,7 @@ namespace CryptoRatesProvider
             _socket.On(Socket.EVENT_CONNECT, () =>
             {
                 Console.WriteLine("connected");
-                var subObject = new { subs = new string[] { "5~CCCAGG~ETH~EUR", "5~CCCAGG~BTC~EUR", "5~CCCAGG~LTC~EUR", "5~CCCAGG~ETH~BTC", "5~CCCAGG~ETH~LTC", "5~CCCAGG~BTC~LTC" } };
+                var subObject = new { subs = _subscriberStrings};
                 _socket.Emit("SubAdd", JObject.FromObject(subObject));
 
             });
@@ -42,9 +44,9 @@ namespace CryptoRatesProvider
 
         protected virtual void OnRatesUpdated(RatesEventArgs args)
         {
-            if (args != null && RatesUpdated != null)
+            if (args != null)
             {
-                RatesUpdated(this, args);
+                RatesUpdated?.Invoke(this, args);
             }
         }
 
