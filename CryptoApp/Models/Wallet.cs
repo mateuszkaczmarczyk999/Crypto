@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CryptoApp.Enums;
 using CryptoApp.Errors;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoApp.Models
 {
@@ -15,7 +17,9 @@ namespace CryptoApp.Models
                 MyFunds.Add(new Currency{CurrencySignature = currencySignature, Value = 0});
         }
 
-        public string Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public virtual List<Currency> MyFunds { get; set; }
 
         public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
