@@ -14,12 +14,12 @@
                         <th>@signature</th>
                     }
                 </tr>
-                @foreach (var toCurrency in Model)
+                @for (int i = 0; i < Model.Length; i++)
                 {
                     <tr>
-                        @foreach (var fromCurrency in Model)
+                        @for (int j = 0; j < Model.Length; j++)
                 {
-                            <td id=@fromCurrency@toCurrency></td>
+                            <td id=@i@j>@i@j</td>
                         }
                     </tr>
                 }
@@ -36,28 +36,27 @@
     <script src="~/signalr/hubs"></script>
     <!--SignalR script to update the chat page and send messages.-->
     <script>
+        
         $(function() {
             /******************************************/
             //Create the proxy
             var market = $.connection.marketHub;
-            console.log(market);
-            $.connection.hub.start().done(function() {
-                alert("Test");
-                market.server.testMethod();
-            });
 
-
-            market.client.updateRates = function() {
-                //var up = '▲';
-                //var down = '▼';
-                //var value = rate.Value;
-                //var id = rate.ChangeFrom + rate.ChangeTo;
-                alert("TEST");
-                console.log("Buu");
-                //$('#BtcEur').val("dupa");
+            market.client.updateRates = function (currencyRateArg) {
+                var up = '▲';
+                var down = '▼';
+                var value = currencyRateArg.Value;
+                var id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
+                $('#' + id).text(value);
             }
-        });
+
             
+            console.log(market);
+            $.connection.hub.start().done(function () {
+                //alert("Test");
+                //market.server.testMethod();
+            });
+        });
     </script>
 }
             

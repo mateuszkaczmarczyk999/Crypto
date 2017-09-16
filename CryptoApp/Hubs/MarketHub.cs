@@ -11,19 +11,14 @@ namespace CryptoApp.Hubs
 {
     public class MarketHub : Hub
     {
-        private readonly TestApi _market;
+        private readonly TestMarket _market;
 
-        public MarketHub() : this(TestApi.GetInstance()) { }
+        public MarketHub() : this(TestMarket.GetInstance()) { }
 
-        public MarketHub(TestApi market)
+        public MarketHub(TestMarket market)
         {
             _market = market;
         }
-
-        public void TestMethod()
-        {
-            Clients.All.updateRates();
-            Debug.WriteLine("test Bro");
-        }
+        
     }
 }

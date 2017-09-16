@@ -13,19 +13,21 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace CryptoApp.Hubs
 {
-    public class TestApi
+    public class TestMarket
     {
-        private readonly static Lazy<TestApi> _instance = new Lazy<TestApi>(() =>
-            new TestApi(GlobalHost.ConnectionManager.GetHubContext<MarketHub>().Clients));
+        private readonly static Lazy<TestMarket> _instance = new Lazy<TestMarket>(() =>
+            new TestMarket(GlobalHost.ConnectionManager.GetHubContext<MarketHub>().Clients));
 
         private readonly IHubConnectionContext<dynamic> _clients;
+        private Random _ranGen;
 
-        public TestApi(IHubConnectionContext<dynamic> clients)
+        public TestMarket(IHubConnectionContext<dynamic> clients)
         {
             _clients = clients;
+            _ranGen = new Random();
         }
 
-        public static TestApi GetInstance()
+        public static TestMarket GetInstance()
         {
             return _instance.Value;
         }
@@ -33,11 +35,15 @@ namespace CryptoApp.Hubs
 
         public CurrenciesRatesEvantArgs TestApiValuesUpdate()
         {
-            var ranGen = new Random();
             CurrenciesRatesEvantArgs args = new CurrenciesRatesEvantArgs();
-            CurrenciesSignatures From = CurrenciesSignatures.Btc;
-            CurrenciesSignatures To = CurrenciesSignatures.Eur;
-            args.Value = ranGen.Next();
+
+            int fromInt = _ranGen.Next(0, 4);
+            CurrenciesSignatures From = (CurrenciesSignatures) fromInt;
+            int toInt = _ranGen.Next(0, 4);
+            CurrenciesSignatures To = (CurrenciesSignatures) toInt;
+            Debug.WriteLine(From);
+            Debug.WriteLine(To);
+            args.Value = _ranGen.Next(0, 1000);
             args.ChangeFrom = From;
             args.ChangeTo = To;
 
@@ -46,20 +52,12 @@ namespace CryptoApp.Hubs
 
         public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
         {
-            args = TestApiValuesUpdate();
-            
-        }
-
-        public void TestMethod()
-        {
             while (true)
             {
-                Debug.WriteLine("DUPA");
-                _clients.All.updateRates();
+                args = TestApiValuesUpdate();
+                _clients.All.updateRates(args);
                 Task.Delay(1000);
             }
         }
-
-       
     }
 }

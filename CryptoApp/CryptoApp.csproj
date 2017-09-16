@@ -218,7 +218,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MarketHub.cs" />
-    <Compile Include="Hubs\TestApi.cs" />
+    <Compile Include="Hubs\TestMarket.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CurrenciesRatesEvantArgs.cs" />
     <Compile Include="Models\IdentityModels.cs" />

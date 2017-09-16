@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CryptoApp.Hubs;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
 
@@ -14,7 +15,6 @@ namespace CryptoApp
             // Any connection or hub wire up and configuration should go here
             app.MapSignalR();
 
-            //var testTask = Task.Run(() => TestApi.GetInstance().TestMethod());
         }
     }
 }
