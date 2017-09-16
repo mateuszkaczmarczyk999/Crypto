@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using CryptoApp.Enums;
+using CryptoRatesProvider;
+using CryptoRatesProvider.Enums;
 
 namespace CryptoApp.Models
 {
@@ -16,20 +17,20 @@ namespace CryptoApp.Models
             return _instance.Value;
         }
 
+//
+//        public bool Exchange(CurrencySignature toSell, CurrencySignature toBuy, decimal quantity, IWallet wallet)
+//        {
+//            if (wallet.IsEnoughFunds(toSell, quantity))
+//            {
+//                wallet.SubstractFunds(toSell, quantity);
+//                wallet.AddFunds(toBuy, quantity * Rates[(int)toSell][(int)toBuy]);
+//
+//                return true;
+//            }
+//            return false;
+//        }
 
-        public bool Exchange(CurrenciesSignatures toSell, CurrenciesSignatures toBuy, decimal quantity, IWallet wallet)
-        {
-            if (wallet.IsEnoughFunds(toSell, quantity))
-            {
-                wallet.SubstractFunds(toSell, quantity);
-                wallet.AddFunds(toBuy, quantity * Rates[(int)toSell][(int)toBuy]);
-
-                return true;
-            }
-            return false;
-        }
-
-        public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
+        public void OnRatesUpdated(object source, RatesEventArgs args)
         {
             Rates[(int)args.ChangeFrom][(int)args.ChangeTo] = args.Value;
             Rates[(int)args.ChangeTo][(int)args.ChangeFrom] = 1 / args.Value;
