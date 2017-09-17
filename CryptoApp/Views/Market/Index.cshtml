@@ -40,10 +40,29 @@
     <script>
 
         $(function() {
-
+            
             var market = $.connection.marketHub;
+            
+            var eth_value;
+            var btc_value;
+            var ltc_value;
+
+            var ethDataPoints = [];
+            var btcDataPoints = [];
+            var ltcDataPoints = [];
 
             market.client.updateRates = function(currencyRateArg) {
+                if (parseInt(currencyRateArg.ChangeTo) == 0) {
+
+                    if (parseInt(currencyRateArg.ChangeFrom) == 1) {
+                        eth_value = currencyRateArg.Value;
+                    } else if (parseInt(currencyRateArg.ChangeFrom) == 2) {
+                        btc_value = currencyRateArg.Value;
+                    } else {
+                        ltc_value = currencyRateArg.Value;
+                    }
+                }
+
                 var first_arrow;
                 var second_arrow;
                 var action = currencyRateArg.PriceAction;
@@ -62,62 +81,129 @@
                 var second_value = 1 / currencyRateArg.Value;
                 var second_id = currencyRateArg.ChangeTo.toString() + currencyRateArg.ChangeFrom.toString();
 
-                console.log(first_id + '-' + first_value);
-                console.log(second_id + '-' + second_value);
                 var first_text = $('#' + first_id).text();
                 var second_text = $('#' + second_id).text();
                 $('#' + first_id).text(first_text.replace('_', first_value + ' ' + first_arrow));
                 $('#' + second_id).text(second_text.replace('_', second_value + ' ' + second_arrow));
             }
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                theme: "theme2",
-                zoomEnabled: true,
-                animationEnabled: true,
-                title: {
-                    text: "Line Chart in ASP.Net MVC using CanvasJS"
-                },
-                subtitles: [
-                    {
-                        text: "Try Zooming and Panning"
-                    }
-                ],
-                data: [
-                    {
-                        type: "line",
+            //var chart = new CanvasJS.Chart("chartContainer", {
+            //    title: {
+            //        text: "CryptoCurrency Real-Time Rating.",
+            //        fontSize: 30
+            //    },
+            //    animationEnabled: true,
+            //    axisX: {
+            //        gridColor: "Silver",
+            //        tickColor: "silver",
+            //
+            //    },
+            //    toolTip: {
+            //        shared: true
+            //    },
+            //    theme: "theme2",
+            //    axisY: {
+            //        gridColor: "Silver",
+            //        tickColor: "silver"
+            //    },
+            //    legend: {
+            //        verticalAlign: "center",
+            //        horizontalAlign: "right"
+            //    },
+            //    data: ratesData
+            //});
+            //
+            //function updateChart() {
+            //    var d = new Date();
+            //    eth_dataPoints = { x: d.toLocaleTimeString(), y: eth_value };
+            //    btc_dataPoints = { x: d.toLocaleTimeString(), y: btc_value };
+            //    ltc_dataPoints = { x: d.toLocaleTimeString(), y: ltc_value };
+            //
+            //    eth_rates.dataPoints.push(eth_dataPoints);
+            //    btc_rates.dataPoints.push(btc_dataPoints);
+            //    ltc_rates.dataPoints.push(ltc_dataPoints);
+            //
+            //    ratesData = [eth_rates, btc_rates, ltc_rates];
+            //    console.log(ratesData);
+            //    
+            //    chart.render();
+            //}
+            //
+            //setInterval(updateChart, 1000); 
 
-                        dataPoints: [
-                            { x: 10, y: 71 },
-                            { x: 20, y: 55 },
-                            { x: 30, y: 50 },
-                            { x: 40, y: 65 },
-                            { x: 50, y: 95 },
-                            { x: 60, y: 68 },
-                            { x: 70, y: 28 },
-                            { x: 80, y: 34 },
-                            { x: 90, y: 14 },
-                            { x: 100, y: 33 },
-                            { x: 110, y: 42 },
-                            { x: 120, y: 62 },
-                            { x: 130, y: 70 },
-                            { x: 140, y: 85 },
-                            { x: 150, y: 58 },
-                            { x: 160, y: 34 },
-                            { x: 170, y: 24 },
-                            { x: 180, y: 33 },
-                            { x: 190, y: 28 },
-                            { x: 200, y: 42 },
-                        ],
-                    }
-                ]
+            var dps = []; // dataPoints
+
+            var chart = new CanvasJS.Chart("chartContainer",{
+                title :{
+                    text: "Real-Time CryptoCurrency Rating"
+                },			
+                data: [{
+                    type: "line",
+                    showInLegend: true,
+                    lineThickness: 2,
+                    name: "ETH",
+                    color: "#89a6d4",
+                    dataPoints: ethDataPoints
+                },{
+                    type: "line",
+                    showInLegend: true,
+                    name: "BTC",
+                    color: "#49796b",
+                    lineThickness: 2,
+                    dataPoints: btcDataPoints
+                },{
+                    type: "line",
+                    showInLegend: true,
+                    name: "LTC",
+                    color: "#ff7f50",
+                    lineThickness: 2,
+                    dataPoints: ltcDataPoints
+                }]
             });
-            chart.render();
 
+            var xVal = 0;
+            var yVal = 100;	
+            var updateInterval = 500;
+            var dataLength = 500; // number of dataPoints visible at any point
 
-        console.log(market);
-        $.connection.hub.start().done(function() {
+            var updateChart = function (count) {
+                count = count || 1;
+                // count is number of times loop runs to generate random dataPoints.
+			
+                for (var j = 0; j < count; j++) {	
+                    yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+                    ethDataPoints.push({
+                        x: xVal,
+                        y: eth_value
+                    });
+                    btcDataPoints.push({
+                        x: xVal,
+                        y: btc_value
+                    });
+                    ltcDataPoints.push({
+                        x: xVal,
+                        y: ltc_value
+                    });
+                    xVal++;
+                };
+                if (dps.length > dataLength)
+                {
+                    dps.shift();				
+                }
+			
+                chart.render();		
+
+            };
+
+            // generates first set of dataPoints
+            updateChart(dataLength); 
+
+            // update chart after specified time. 
+            setInterval(function(){updateChart()}, updateInterval); 
+
+            $.connection.hub.start().done(function() {
+            });
         });
-    });
     </script>
 }
 
