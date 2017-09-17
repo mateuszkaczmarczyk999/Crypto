@@ -213,14 +213,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MarketController.cs" />
-    <Compile Include="Enums\CurrenciesSignatures.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MarketHub.cs" />
     <Compile Include="Hubs\TestMarket.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CurrenciesRatesEvantArgs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Market.cs" />
@@ -309,6 +307,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CryptoRatesProvider\CryptoRatesProvider.csproj">
+      <Project>{69c315a7-143d-4a69-ab65-bb84399b097c}</Project>
+      <Name>CryptoRatesProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -5,7 +5,7 @@ using CryptoRatesProvider.Enums;
 
 namespace CryptoApp.Models
 {
-    public class Market : IMarket
+    public class Market
     {
         private static readonly Lazy<Market> _instance =
             new Lazy<Market>(() => new Market());
@@ -32,8 +32,8 @@ namespace CryptoApp.Models
 
         public void OnRatesUpdated(object source, RatesEventArgs args)
         {
-            Rates[(int)args.ChangeFrom][(int)args.ChangeTo] = args.Value;
-            Rates[(int)args.ChangeTo][(int)args.ChangeFrom] = 1 / args.Value;
+            Rates[(int) args.ChangeFrom][(int) args.ChangeTo] = args.Value;
+            Rates[(int) args.ChangeTo][(int) args.ChangeFrom] = 1 / args.Value;
         }
     }
 }

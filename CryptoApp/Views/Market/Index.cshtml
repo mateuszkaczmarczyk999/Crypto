@@ -8,18 +8,17 @@
     <div class="container">
         <table class="table table-bordered">
             <tbody>
-                <tr>
-                    @foreach (var signature in Model)
-            {
-                        <th>@signature</th>
-                    }
-                </tr>
                 @for (int i = 0; i < Model.Length; i++)
                 {
                     <tr>
+                        <th>@Model.GetValue(i).ToString().ToUpper()</th>
+
                         @for (int j = 0; j < Model.Length; j++)
-                {
-                            <td id=@i@j>@i@j</td>
+                        {
+                            if (i != j)
+                            {
+                                <td id=@i@j>_ @Model.GetValue(j).ToString().ToUpper()</td>
+                            }
                         }
                     </tr>
                 }
@@ -38,16 +37,35 @@
     <script>
         
         $(function() {
-            /******************************************/
-            //Create the proxy
+            
             var market = $.connection.marketHub;
 
             market.client.updateRates = function (currencyRateArg) {
-                var up = '▲';
-                var down = '▼';
-                var value = currencyRateArg.Value;
-                var id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
-                $('#' + id).text(value);
+                var first_arrow;
+                var second_arrow;
+                var action = currencyRateArg.PriceAction;
+                if (action == 1) {
+                    first_arrow = '▲';
+                    second_arrow = '▼';
+                }
+                else if (action == 2) {
+                    first_arrow = '▼';
+                    second_arrow = '▲';
+                } else {
+                    first_arrow = ' ';
+                    second_arrow = ' ';
+                }
+                var first_value = currencyRateArg.Value;
+                var first_id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
+                var second_value = 1/currencyRateArg.Value;
+                var second_id = currencyRateArg.ChangeTo.toString() + currencyRateArg.ChangeFrom.toString();
+
+                console.log(first_id + '-' + first_value);
+                console.log(second_id + '-' + second_value);
+                var first_text = $('#' + first_id).text();
+                var second_text = $('#' + second_id).text();
+                $('#' + first_id).text(first_text.replace('_', first_value + ' ' + first_arrow));
+                $('#' + second_id).text(second_text.replace('_', second_value + ' ' + second_arrow));
             }
 
             

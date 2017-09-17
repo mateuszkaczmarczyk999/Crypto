@@ -6,10 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using CryptoApp.Enums;
 using CryptoApp.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using CryptoRatesProvider;
+using CryptoRatesProvider.Enums;
 
 namespace CryptoApp.Hubs
 {
@@ -33,14 +34,14 @@ namespace CryptoApp.Hubs
         }
 
 
-        public CurrenciesRatesEvantArgs TestApiValuesUpdate()
+        public RatesEventArgs TestApiValuesUpdate()
         {
-            CurrenciesRatesEvantArgs args = new CurrenciesRatesEvantArgs();
+            RatesEventArgs args = new RatesEventArgs();
 
             int fromInt = _ranGen.Next(0, 4);
-            CurrenciesSignatures From = (CurrenciesSignatures) fromInt;
+            CurrencySignature From = (CurrencySignature) fromInt;
             int toInt = _ranGen.Next(0, 4);
-            CurrenciesSignatures To = (CurrenciesSignatures) toInt;
+            CurrencySignature To = (CurrencySignature) toInt;
             Debug.WriteLine(From);
             Debug.WriteLine(To);
             args.Value = _ranGen.Next(0, 1000);
@@ -50,14 +51,9 @@ namespace CryptoApp.Hubs
             return args;
         }
 
-        public void OnRatesUpdated(object source, CurrenciesRatesEvantArgs args)
+        public void OnRatesUpdated(object source, RatesEventArgs args)
         {
-            while (true)
-            {
-                args = TestApiValuesUpdate();
-                _clients.All.updateRates(args);
-                Task.Delay(1000);
-            }
+            _clients.All.updateRates(args);
         }
     }
 }
