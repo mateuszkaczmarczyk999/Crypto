@@ -26,11 +26,12 @@
         </tbody>
     </table>
     <div>
-        <button id="month" type="button" class="btn btn-primary active">1 Month</button>
-        <button id="week" type="button" class="btn btn-primary active">1 Week</button>
-        <button id="day" type="button" class="btn btn-primary active">1 Day</button>
-        <button id="hour" type="button" class="btn btn-primary active">1 Hour</button>
-        <button id="minute" type="button" class="btn btn-primary active">1 Minute</button>
+        <button id="month" type="button" class="btn btn-primary active">Month</button>
+        <button id="week" type="button" class="btn btn-primary active">Week</button>
+        <button id="day" type="button" class="btn btn-primary active">Day</button>
+        <button id="hour" type="button" class="btn btn-primary active">Hour</button>
+        <button id="minute" type="button" class="btn btn-primary active">Minute</button>
+        <button id="live" type="button" class="btn btn-primary active">Live</button>
     </div>
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </div>
@@ -58,7 +59,7 @@
                         callback(dataJSON);
                     }
                 }
-                xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+                xmlHttp.open("GET", theUrl, true);
                 xmlHttp.send(null);
             }
 
@@ -71,11 +72,7 @@
 
             var chart = new CanvasJS.Chart("chartContainer", chartObject);
 
-            // init currency rates on chart
-
-            function updateDatapoints(JSONdata, currencyName, colorHex) {
-                console.log(chart);
-                var rateslist = JSONdata.Data;
+            function initCurrencyChartObject(currencyName, colorHex) {
                 var rateObject = {
                     type: "line",
                     xValueType: "dateTime",
@@ -85,6 +82,14 @@
                     color: colorHex,
                     dataPoints: []
                 }
+                return rateObject;
+            }
+
+            // init currency rates on chart
+
+            function updateDatapoints(JSONdata, currencyName, colorHex) {
+                var rateslist = JSONdata.Data;
+                var rateObject = initCurrencyChartObject(currencyName, colorHex);
                 for (var i = 0; i < rateslist.length; i++) {
                     var date = new Date(rateslist[i].time * 1000);
                     rateObject.dataPoints.push({
@@ -138,8 +143,11 @@
 
             //init table rating data
 
-            function initRates() {
+            var ethLiveRate;
+            var btcLiveRate;
+            var ltcLiveRate;
 
+            function initRates() {
                 var eurRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=ETH,BTC,LTC";
                 var ethRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR,BTC,LTC";
                 var btcRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=EUR,ETH,LTC";
@@ -166,6 +174,7 @@
                 $('#10').text(eur);
                 $('#12').text(btc);
                 $('#13').text(ltc);
+                ethLiveRate = eur;
             }
 
             function initBtcRow(data) {
@@ -175,6 +184,7 @@
                 $('#20').text(eur);
                 $('#21').text(eth);
                 $('#23').text(ltc);
+                btcLiveRate = eur;
             }
 
             function initLtcRow(data) {
@@ -184,6 +194,7 @@
                 $('#30').text(eur);
                 $('#31').text(eth);
                 $('#32').text(btc);
+                ltcLiveRate = eur;
             }
 
 
@@ -191,7 +202,21 @@
 
             var market = $.connection.marketHub;
 
+            function updateLiveRate(currencyRateArg) {
+                if (parseInt(currencyRateArg.ChangeTo) == 0 && currencyRateArg.Value != undefined) {
+                    if (parseInt(currencyRateArg.ChangeFrom) == 1) {
+                        ethLiveRate = currencyRateArg.Value;
+                    } else if (parseInt(currencyRateArg.ChangeFrom) == 2) {
+                        btcLiveRate = currencyRateArg.Value;
+                    } else {
+                        ltcLiveRate = currencyRateArg.Value;
+                    }
+                }
+            }
+
             market.client.updateRates = function(currencyRateArg) {
+
+                updateLiveRate(currencyRateArg);
 
                 var first_arrow;
                 var second_arrow;
@@ -215,39 +240,42 @@
                 $('#' + second_id).text(second_value + ' ' + second_arrow);
             }
 
-            //var currentDate = new Date();
-            //var liveUpdateChart = function() {
-            //
-            //    ethDataPoints.push({
-            //        x: currentDate.getTime(),
-            //        y: eth_value
-            //    });
-            //    btcDataPoints.push({
-            //        x: currentDate.getTime(),
-            //        y: btc_value
-            //    });
-            //    ltcDataPoints.push({
-            //        x: currentDate.getTime(),
-            //        y: ltc_value
-            //    });
-            //
-            //    if (ethDataPoints.length > 60) {
-            //        ethDataPoints.shift();
-            //    }
-            //    if (btcDataPoints.length > 60) {
-            //        btcDataPoints.shift();
-            //    }
-            //    if (ltcDataPoints.length > 60) {
-            //        ltcDataPoints.shift();
-            //    }
-            //    //console.log(ethDataPoints);
-            //    //console.log(btcDataPoints);
-            //    //console.log(ltcDataPoints);
-            //    chart.render();
-            //};
+            function clearChart() {
+                chartObject.data = [];
+                chartObject.data.push(initCurrencyChartObject("ETH", "#f2b81e"));
+                chartObject.data.push(initCurrencyChartObject("BTC", "#2d66f1"));
+                chartObject.data.push(initCurrencyChartObject("LTC", "#ff1493"));
+                
+            }
 
+            var liveUpdateChart = function() {
 
-            initRates();
+                var currentDate = new Date();
+
+                chartObject.data[0].dataPoints.push({
+                    x: currentDate.getTime(),
+                    y: ethLiveRate
+                });
+                chartObject.data[1].dataPoints.push({
+                    x: currentDate.getTime(),
+                    y: btcLiveRate
+                });
+                chartObject.data[2].dataPoints.push({
+                    x: currentDate.getTime(),
+                    y: ltcLiveRate
+                });
+
+                if (chartObject.data[0].dataPoints.length > 60) {
+                    chartObject.data[0].dataPoints.shift();
+                }
+                if (chartObject.data[1].dataPoints.length > 60) {
+                    chartObject.data[1].dataPoints.shift();
+                }
+                if (chartObject.data[2].dataPoints.length > 60) {
+                    chartObject.data[2].dataPoints.shift();
+                }
+                chart.render();
+            };
 
             $('#month').click(() => alert("month"));
             $('#week').click(() => alert("week"));
@@ -260,10 +288,13 @@
             $('#minute').click(function() {
                 minuteRates();
             });
-
-            //setInterval(liveUpdateChart, 1000);
+            $('#live').click(function() {
+                clearChart();
+                setInterval(liveUpdateChart, 1000);
+            });
 
             $.connection.hub.start().done(function() {
+                initRates();
             });
         });
     </script>
