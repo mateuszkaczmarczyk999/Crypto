@@ -46,13 +46,13 @@
 
     <script>
 
-        $(function () {
+        $(function() {
 
             //async get method with callback function
 
             function httpGetAsync(theUrl, callback) {
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.onreadystatechange = function () {
+                xmlHttp.onreadystatechange = function() {
                     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                         var dataJSON = JSON.parse(xmlHttp.responseText);
                         callback(dataJSON);
@@ -62,92 +62,84 @@
                 xmlHttp.send(null);
             }
 
-
             //chart setup
 
-            var chartSubTitle = "";
-            var ethDataPoints = [];
-            var btcDataPoints = [];
-            var ltcDataPoints = [];
-
-            var chart = new CanvasJS.Chart("chartContainer",
-                {
-                    title: {
-                        text: chartSubTitle
-                    },
-                    data: [
-                        {
-                            type: "line",
-                            xValueType: "dateTime",
-                            showInLegend: true,
-                            lineThickness: 2,
-                            name: "ETH",
-                            color: "#89a6d4",
-                            dataPoints: ethDataPoints
-                        }, {
-                            type: "line",
-                            xValueType: "dateTime",
-                            showInLegend: true,
-                            name: "BTC",
-                            color: "#49796b",
-                            lineThickness: 2,
-                            dataPoints: btcDataPoints
-                        }, {
-                            type: "line",
-                            xValueType: "dateTime",
-                            showInLegend: true,
-                            name: "LTC",
-                            color: "#ff7f50",
-                            lineThickness: 2,
-                            dataPoints: ltcDataPoints
-                        }
-                    ]
-                });
-
-            // init month rates chart
-
-            function monthChart() {
-                chartSubTitle = "Month Rates";
-                var ethUrl = "https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
-                var btcUrl = "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
-                var ltcUrl = "https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
-
-                httpGetAsync(ethUrl, function (JSONdata) {
-                    var rateslist = JSONdata.Data;
-                    for (var i = 0; i < rateslist.length; i++) {
-                        var date = new Date(rateslist[i].time * 1000);
-                        ethDataPoints.push({
-                            x: date.getTime(),
-                            y: rateslist[i].high
-                        });
-                    }
-                });
-                httpGetAsync(btcUrl, function (JSONdata) {
-                    var rateslist = JSONdata.Data;
-                    for (var i = 0; i < rateslist.length; i++) {
-                        var date = new Date(rateslist[i].time * 1000);
-                        btcDataPoints.push({
-                            x: date.getTime(),
-                            y: rateslist[i].high
-                        });
-                    }
-                });
-                httpGetAsync(ltcUrl, function (JSONdata) {
-                    var rateslist = JSONdata.Data;
-                    for (var i = 0; i < rateslist.length; i++) {
-                        var date = new Date(rateslist[i].time * 1000);
-                        ltcDataPoints.push({
-                            x: date.getTime(),
-                            y: rateslist[i].high
-                        });
-                    }
-                });
+            var chartObject = {
+                title: { text: "Currency Rating" },
+                data: []
             }
-           
+
+            var chart = new CanvasJS.Chart("chartContainer", chartObject);
+
+            // init currency rates on chart
+
+            function updateDatapoints(JSONdata, currencyName, colorHex) {
+                console.log(chart);
+                var rateslist = JSONdata.Data;
+                var rateObject = {
+                    type: "line",
+                    xValueType: "dateTime",
+                    showInLegend: true,
+                    lineThickness: 2,
+                    name: currencyName,
+                    color: colorHex,
+                    dataPoints: []
+                }
+                for (var i = 0; i < rateslist.length; i++) {
+                    var date = new Date(rateslist[i].time * 1000);
+                    rateObject.dataPoints.push({
+                        x: date.getTime(),
+                        y: rateslist[i].high
+                    });
+                }
+                chartObject.data.push(rateObject);
+                chart.render();
+            }
+
+            function fillChart(ethUrl, btcUrl, ltcUrl) {
+                chartObject.data = [];
+                httpGetAsync(ethUrl, (data) => updateDatapoints(data, "ETH", "#f2b81e"));
+                httpGetAsync(btcUrl, (data) => updateDatapoints(data, "BTC", "#2d66f1"));
+                httpGetAsync(ltcUrl, (data) => updateDatapoints(data, "LTC", "#ff1493"));
+            }
+
+            function dayRates() {
+                chartSubTitle = "Month Rates";
+                var ethUrl =
+                    "https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
+                var btcUrl =
+                    "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
+                var ltcUrl =
+                    "https://min-api.cryptocompare.com/data/histoday?fsym=LTC&tsym=EUR&limit=30&aggregate=1&e=CCCAGG";
+                fillChart(ethUrl, btcUrl, ltcUrl);
+            }
+
+            function hourRates() {
+                chartSubTitle = "Hour Rates";
+                var ethUrl =
+                    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=EUR&limit=24&aggregate=1&e=CCCAGG";
+                var btcUrl =
+                    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=EUR&limit=24&aggregate=1&e=CCCAGG";
+                var ltcUrl =
+                    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=EUR&limit=24&aggregate=1&e=CCCAGG";
+                fillChart(ethUrl, btcUrl, ltcUrl);
+            }
+
+            function minuteRates() {
+                chartSubTitle = "Minute Rates";
+                var ethUrl =
+                    "https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=EUR&limit=60&aggregate=1&e=CCCAGG";
+                var btcUrl =
+                    "https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=EUR&limit=60&aggregate=1&e=CCCAGG";
+                var ltcUrl =
+                    "https://min-api.cryptocompare.com/data/histominute?fsym=LTC&tsym=EUR&limit=60&aggregate=1&e=CCCAGG";
+                fillChart(ethUrl, btcUrl, ltcUrl);
+            }
+
             //init table rating data
 
             function initRates() {
-                
+
                 var eurRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=ETH,BTC,LTC";
                 var ethRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR,BTC,LTC";
                 var btcRateUrl = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=EUR,ETH,LTC";
@@ -200,7 +192,7 @@
             var market = $.connection.marketHub;
 
             market.client.updateRates = function(currencyRateArg) {
-                
+
                 var first_arrow;
                 var second_arrow;
                 var action = currencyRateArg.PriceAction;
@@ -254,65 +246,24 @@
             //    chart.render();
             //};
 
-            //var minuteUpdateChart = function() {
-            //    httpGetAsync(
-            //        "https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=EUR&limit=60&aggregate=3&e=CCCAGG",
-            //        initBtcData);
-            //    httpGetAsync(
-            //        "https://min-api.cryptocompare.com/data/histominute?fsym=LTC&tsym=EUR&limit=60&aggregate=3&e=CCCAGG",
-            //        initLtcData);
-            //    httpGetAsync(
-            //        "https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=EUR&limit=60&aggregate=3&e=CCCAGG",
-            //        initEthData);
-            //    //chart.render();
-            //}
-            //
-            
-            //
-            //function initEthData(data) {
-            //    var ethRates = initDataList(data);
-            //    for (var i = 0; i < ethRates.length; i++) {
-            //        var date = new Date(ethRates[i].time * 1000);
-            //        ethDataPoints.push({
-            //            x: date.getTime(),
-            //            y: ethRates[i].open
-            //        });
-            //    }
-            //};
-            //
-            //function initBtcData(data) {
-            //    var btcRates = initDataList(data);
-            //    var x = 0;
-            //    for (var i = 0; i < btcRates.length; i++) {
-            //        var date = new Date(btcRates[i].time * 1000);
-            //        btcDataPoints.push({
-            //            x: date.getTime(),
-            //            y: btcRates[i].open
-            //        });
-            //    }
-            //};
-            //
-            //function initLtcData(data) {
-            //    var ltcRates = initDataList(data);
-            //    var x = 0;
-            //    for (var i = 0; i < ltcRates.length; i++) {
-            //        var date = new Date(ltcRates[i].time * 1000);
-            //        ltcDataPoints.push({
-            //            x: date.getTime(),
-            //            y: ltcRates[i].open
-            //        });
-            //    }
-            //}
-            //
-            //
-            //// update chart after second. 
+
             initRates();
-            monthChart();
-            
+
+            $('#month').click(() => alert("month"));
+            $('#week').click(() => alert("week"));
+            $('#day').click(function() {
+                dayRates();
+            });
+            $('#hour').click(function() {
+                hourRates();
+            });
+            $('#minute').click(function() {
+                minuteRates();
+            });
+
             //setInterval(liveUpdateChart, 1000);
 
-            $.connection.hub.start().done(function () {
-                chart.render();
+            $.connection.hub.start().done(function() {
             });
         });
     </script>
