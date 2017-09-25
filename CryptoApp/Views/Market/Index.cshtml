@@ -277,24 +277,30 @@
                 chart.render();
             };
 
+            var intrval;
+
             $('#month').click(() => alert("month"));
             $('#week').click(() => alert("week"));
-            $('#day').click(function() {
+            $('#day').click(function () {
+                clearInterval(intrval);
                 dayRates();
             });
-            $('#hour').click(function() {
+            $('#hour').click(function () {
+                clearInterval(intrval);
                 hourRates();
             });
-            $('#minute').click(function() {
+            $('#minute').click(function () {
+                clearInterval(intrval);
                 minuteRates();
             });
             $('#live').click(function() {
                 clearChart();
-                setInterval(liveUpdateChart, 1000);
+                intrval = setInterval(liveUpdateChart, 1000);
             });
 
             $.connection.hub.start().done(function() {
                 initRates();
+                dayRates();
             });
         });
     </script>
