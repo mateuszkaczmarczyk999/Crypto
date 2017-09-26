@@ -10,11 +10,16 @@ namespace CryptoApp.Models
 {
     public class Wallet : IWallet
     {
-        public Wallet()
+        public Wallet(bool isRegistered)
         {
             MyFunds = new List<Currency>();
             foreach (var currencySignature in Enum.GetValues(typeof(CurrenciesSignatures)).Cast<CurrenciesSignatures>())
-                MyFunds.Add(new Currency{CurrencySignature = currencySignature, Value = 0});
+                MyFunds.Add(new Currency{CurrencySignature = currencySignature, Value = 0.0m});
+        }
+
+        public Wallet()
+        {
+          
         }
 
         [Key]
