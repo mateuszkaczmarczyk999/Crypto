@@ -1,0 +1,33 @@
+﻿@model CryptoApp.Models.Wallet
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+  <tr>
+    <th>
+      Currency
+    </th>
+    <th>
+      Quantity
+    </th>
+  </tr>
+
+  @foreach (var item in Model.MyFunds)
+  {
+      <tr>
+        <td>
+          @item.CurrencySignature
+        </td>
+        <td>
+          @item.Value
+        </td>
+      </tr>
+  }
+
+</table>
