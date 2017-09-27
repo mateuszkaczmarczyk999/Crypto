@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CryptoApp.Enums;
+using CryptoRatesProvider.Enums;
 using CryptoApp.Errors;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +13,7 @@ namespace CryptoApp.Models
         public Wallet(bool isRegistered)
         {
             MyFunds = new List<Currency>();
-            foreach (var currencySignature in Enum.GetValues(typeof(CurrenciesSignatures)).Cast<CurrenciesSignatures>())
+            foreach (var currencySignature in Enum.GetValues(typeof(CurrencySignature)).Cast<CurrencySignature>())
                 MyFunds.Add(new Currency{CurrencySignature = currencySignature, Value = 0.0m});
         }
 
@@ -27,12 +27,12 @@ namespace CryptoApp.Models
         public int Id { get; set; }
         public virtual List<Currency> MyFunds { get; set; }
 
-        public bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity)
+        public bool HasEnoughFunds(CurrencySignature toSell, decimal quantity)
         {
             return MyFunds.Find(x => x.CurrencySignature==toSell).Value >= quantity;
         }
 
-        public void SubstractFunds(CurrenciesSignatures toSell, decimal quantity)
+        public void SubstractFunds(CurrencySignature toSell, decimal quantity)
         {
             if (HasEnoughFunds(toSell, quantity))
                 MyFunds.Find(x => x.CurrencySignature == toSell).Value -= quantity;
@@ -40,7 +40,7 @@ namespace CryptoApp.Models
                 throw new NotEnoughFundsException();
         }
 
-        public void AddFunds(CurrenciesSignatures toBuy, decimal quantity)
+        public void AddFunds(CurrencySignature toBuy, decimal quantity)
         {
             MyFunds.Find(x => x.CurrencySignature == toBuy).Value += quantity;
         }

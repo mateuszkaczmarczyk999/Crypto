@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CryptoApp.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using CryptoRatesProvider.Enums;
 
 namespace CryptoApp.Models
 {
@@ -11,7 +11,7 @@ namespace CryptoApp.Models
         public int Id { get; set; }
         
         [Required]
-        public CurrenciesSignatures CurrencySignature { get; set; }
+        public CurrencySignature CurrencySignature { get; set; }
         
         [Required]
         public decimal Value { get; set; }

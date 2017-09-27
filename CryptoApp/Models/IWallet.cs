@@ -1,13 +1,13 @@
-﻿using CryptoApp.Enums;
+﻿using CryptoRatesProvider.Enums;
 
 namespace CryptoApp.Models
 {
     public interface IWallet
     {
-        bool HasEnoughFunds(CurrenciesSignatures toSell, decimal quantity);
+        bool HasEnoughFunds(CurrencySignature toSell, decimal quantity);
 
-        void SubstractFunds(CurrenciesSignatures toSell, decimal quantity);
+        void SubstractFunds(CurrencySignature toSell, decimal quantity);
 
-        void AddFunds(CurrenciesSignatures toBuy, decimal quantity);
+        void AddFunds(CurrencySignature toBuy, decimal quantity);
     }
 }
