@@ -269,6 +269,7 @@
     <Compile Include="Hubs\TestMarket.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IMarket.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Market.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
