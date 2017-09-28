@@ -21,10 +21,15 @@ namespace CryptoApp.Controllers
         // GET: Wallet
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
-            var wallet = _context.Users.Where(u => u.Id == userId).SingleOrDefault().UserWallet;
-           //var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
-           return View(wallet);
+            if(User.Identity.IsAuthenticated){
+                var userId = User.Identity.GetUserId();
+                var wallet = _context.Users.Where(u => u.Id == userId).SingleOrDefault().UserWallet;
+                return View(wallet);
+            }
+            else
+            {
+                return Redirect("Account/Login");
+            }
         }
     }
 }

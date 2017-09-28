@@ -17,7 +17,12 @@
                 {
                     if (i != j)
                     {
-                        <td><span id=@i@j></span> @Model.GetValue(j).ToString().ToUpper()</td>
+                        <td><span id=@i@j></span> @Model.GetValue(j).ToString().ToUpper() 
+                            @if (Context.User.Identity.IsAuthenticated)
+                            {
+                                <button onclick="showTransactionWindow('Eur','Btc')" class="btn btn-info" style="float: right;" align="right" >Buy</button>
+                            }
+                        </td>                                                    
                     }
                 }
             </tr>
@@ -25,6 +30,7 @@
 
         </tbody>
     </table>
+    
     <div>
         <button id="month" type="button" class="btn btn-primary active">Month</button>
         <button id="week" type="button" class="btn btn-primary active">Week</button>
@@ -46,6 +52,24 @@
     <script src="~/Scripts/canvasjs.min.js"></script>
 
     <script>
+
+        function isNumeric(n) {
+            return !isNaN(n) && n !== "" && n !== null;
+        }
+
+        var showTransactionWindow = function(toBuy, toSell) {
+            var value = prompt("How much " + toBuy.toString() + " would you like to buy?");
+            if (isNumeric(value)) {
+                var confirmation = confirm("Do you want to buy " + value + " " + toBuy + " for " + toSell + "?");
+                if (confirmation) {
+                    
+                }
+            } 
+            else {
+                alert("Not a valid quantity!");
+            }
+        }
+
 
         $(function() {
 
@@ -245,7 +269,7 @@
                 chartObject.data.push(initCurrencyChartObject("ETH", "#f2b81e"));
                 chartObject.data.push(initCurrencyChartObject("BTC", "#2d66f1"));
                 chartObject.data.push(initCurrencyChartObject("LTC", "#ff1493"));
-                
+
             }
 
             var liveUpdateChart = function() {
@@ -293,12 +317,14 @@
                 clearInterval(intrval);
                 minuteRates();
             });
-            $('#live').click(function() {
+            $('#live').click(function () {
+                clearInterval(intrval);
                 clearChart();
                 intrval = setInterval(liveUpdateChart, 1000);
             });
 
-            $.connection.hub.start().done(function() {
+            $.connection.hub.start().done(function () {
+                clearInterval(intrval);
                 initRates();
                 dayRates();
             });
