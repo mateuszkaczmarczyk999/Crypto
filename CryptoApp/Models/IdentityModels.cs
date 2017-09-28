@@ -1,9 +1,8 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoApp.Models
 {
@@ -18,7 +17,7 @@ namespace CryptoApp.Models
 
             return userIdentity;
         }
-                 
+
 
         //[ForeignKey("UserWallet_Id")]
         public virtual Wallet UserWallet { get; set; }
@@ -38,6 +37,11 @@ namespace CryptoApp.Models
             return new ApplicationDbContext();
         }
 
-        //public System.Data.Entity.DbSet<CryptoApp.Models.ApplicationUser> ApplicationUsers { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Currency>().Property(c => c.Value).HasPrecision(38, 19);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

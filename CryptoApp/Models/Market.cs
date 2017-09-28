@@ -4,6 +4,7 @@ using CryptoRatesProvider.Enums;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System;
+using System.Diagnostics;
 
 namespace CryptoApp.Models
 {
@@ -30,10 +31,10 @@ namespace CryptoApp.Models
 
         public bool Exchange(CurrencySignature toSell, CurrencySignature toBuy, decimal quantity, IWallet wallet)
         {
-            if (wallet.HasEnoughFunds(toSell, quantity))
+            if (wallet.HasEnoughFunds(toSell, quantity * Rates[(int)toBuy, (int)toSell]))
             {
-                wallet.SubstractFunds(toSell, quantity);
-                wallet.AddFunds(toBuy, quantity * Rates[(int)toSell, (int)toBuy]);
+                wallet.SubstractFunds(toSell, quantity * Rates[(int)toBuy, (int)toSell]);
+                wallet.AddFunds(toBuy, quantity);
 
                 return true;
             }

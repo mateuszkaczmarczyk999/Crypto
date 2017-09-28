@@ -1,0 +1,31 @@
+﻿@model CryptoApp.ViewModels.ExchangeFundsViewModel
+@{
+    ViewBag.Title = "Exchange";
+}
+<h2>Exchange</h2>
+@using (Html.BeginForm("Exchange", "Wallet"))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.ToBuy)
+        @Html.EnumDropDownListFor(signature => signature.ToBuy, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ToBuy)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ToSell)
+        @Html.EnumDropDownListFor(signature => signature.ToSell, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ToSell)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Quantity)
+        @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", placeholder = "eg 123.7822" })
+        @Html.ValidationMessageFor(m => m.Quantity)
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
