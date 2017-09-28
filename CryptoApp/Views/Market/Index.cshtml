@@ -20,7 +20,7 @@
                         <td><span id=@i@j></span> @Model.GetValue(j).ToString().ToUpper() 
                             @if (Context.User.Identity.IsAuthenticated)
                             {
-                              <button onclick="showTransactionWindow('Curr1','Curr2')" style="float: right;" align="right" >Buy</button>
+                                <button onclick="showTransactionWindow('Eur','Btc')" class="btn btn-info" style="float: right;" align="right" >Buy</button>
                             }
                         </td>                                                    
                     }
@@ -30,6 +30,7 @@
 
         </tbody>
     </table>
+    
     <div>
         <button id="month" type="button" class="btn btn-primary active">Month</button>
         <button id="week" type="button" class="btn btn-primary active">Week</button>
