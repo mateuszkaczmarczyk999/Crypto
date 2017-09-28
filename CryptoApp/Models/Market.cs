@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using CryptoApp.Hubs;
+﻿using CryptoApp.Hubs;
 using CryptoRatesProvider;
 using CryptoRatesProvider.Enums;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using System;
 
 namespace CryptoApp.Models
 {
@@ -12,8 +11,8 @@ namespace CryptoApp.Models
     {
         private static readonly Lazy<Market> _instance = new Lazy<Market>(() =>
             new Market(GlobalHost.ConnectionManager.GetHubContext<MarketHub>().Clients));
-        private readonly IHubConnectionContext<dynamic> _clients;
 
+        private readonly IHubConnectionContext<dynamic> _clients;
 
         public decimal[,] Rates;
 
@@ -28,7 +27,6 @@ namespace CryptoApp.Models
         {
             return _instance.Value;
         }
-
 
         public bool Exchange(CurrencySignature toSell, CurrencySignature toBuy, decimal quantity, IWallet wallet)
         {
@@ -46,7 +44,7 @@ namespace CryptoApp.Models
         {
             Rates[(int)args.ChangeFrom, (int)args.ChangeTo] = args.Value;
             Rates[(int)args.ChangeTo, (int)args.ChangeFrom] = 1 / args.Value;
-            
+
             _clients.All.updateRates(args);
         }
     }
