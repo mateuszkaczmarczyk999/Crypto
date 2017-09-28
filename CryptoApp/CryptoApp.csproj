@@ -311,9 +311,9 @@
     </Compile>
     <Compile Include="Hubs\MarketHub.cs" />
     <Compile Include="Hubs\TestMarket.cs" />
-    <Compile Include="Migrations\201709151257149_cleanStart.cs" />
-    <Compile Include="Migrations\201709151257149_cleanStart.Designer.cs">
-      <DependentUpon>201709151257149_cleanStart.cs</DependentUpon>
+    <Compile Include="Migrations\201709281402597_bla.cs" />
+    <Compile Include="Migrations\201709281402597_bla.Designer.cs">
+      <DependentUpon>201709281402597_bla.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -411,15 +411,15 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709151257149_cleanStart.resx">
-      <DependentUpon>201709151257149_cleanStart.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CryptoRatesProvider\CryptoRatesProvider.csproj">
       <Project>{69c315a7-143d-4a69-ab65-bb84399b097c}</Project>
       <Name>CryptoRatesProvider</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709281402597_bla.resx">
+      <DependentUpon>201709281402597_bla.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

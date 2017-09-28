@@ -369,7 +369,7 @@ namespace CryptoApp.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserWallet = new Wallet(false)};
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

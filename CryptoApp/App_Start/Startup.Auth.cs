@@ -55,15 +55,15 @@ namespace CryptoApp
             //   consumerKey: "",
             //   consumerSecret: "");
     
-            //app.UseFacebookAuthentication(
-            //   appId: "236994643491504",
-            //   appSecret: "efdff23c06d87a45c0199e7eca5a7d29");
-            //
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "768159755480-gn8f857ct25375g4c0dct53tubg67g6o.apps.googleusercontent.com",
-            //    ClientSecret = "W7yaRmNa2kZgw_1ut70a_bCQ"
-            //});
+            app.UseFacebookAuthentication(
+               appId: "236994643491504",
+               appSecret: "efdff23c06d87a45c0199e7eca5a7d29");
+            
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "768159755480-gn8f857ct25375g4c0dct53tubg67g6o.apps.googleusercontent.com",
+                ClientSecret = "W7yaRmNa2kZgw_1ut70a_bCQ"
+            });
         }
     }
 }
