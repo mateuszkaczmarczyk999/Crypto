@@ -1,10 +1,6 @@
 ﻿using CryptoApp.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CryptoApp.Controllers
@@ -17,19 +13,14 @@ namespace CryptoApp.Controllers
         {
             _context = new ApplicationDbContext();
         }
-   
+
         // GET: Wallet
+        [Authorize]
         public ActionResult Index()
         {
-            if(User.Identity.IsAuthenticated){
-                var userId = User.Identity.GetUserId();
-                var wallet = _context.Users.Where(u => u.Id == userId).SingleOrDefault().UserWallet;
-                return View(wallet);
-            }
-            else
-            {
-                return Redirect("Account/Login");
-            }
+            var userId = User.Identity.GetUserId();
+            var wallet = _context.Users.SingleOrDefault(u => u.Id == userId)?.UserWallet;
+            return View(wallet);
         }
     }
 }
