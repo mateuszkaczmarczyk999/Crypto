@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using CryptoApp.Hubs;
+using CryptoApp.Models;
 using CryptoRatesProvider;
 using CryptoRatesProvider.Enums;
 
@@ -18,7 +19,7 @@ namespace CryptoApp
                 new RatePair(CurrencySignature.Btc, CurrencySignature.Ltc));
 
             var provider = providerFactory.GerProvider(RateProvider.CryptoCompare);
-            provider.RatesUpdated += (sender, eventArgs) => TestMarket.GetInstance().OnRatesUpdated(sender, eventArgs);
+            provider.RatesUpdated += (sender, eventArgs) => Market.GetInstance().OnRatesUpdated(sender, eventArgs);
             provider.StartService();
 
             //            provider.RatesUpdated += (sender, eventArgs) =>
