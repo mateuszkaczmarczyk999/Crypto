@@ -33,7 +33,9 @@
         <button id="minute" type="button" class="btn btn-primary active">Minute</button>
         <button id="live" type="button" class="btn btn-primary active">Live</button>
     </div>
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="chartEth" style="height: 300px; width: 100%;"></div>
+    <div id="chartBtc" style="height: 300px; width: 100%;"></div>
+    <div id="chartLtc" style="height: 300px; width: 100%;"></div>
 </div>
 @section scripts {
     <!--Script references. -->
@@ -65,12 +67,25 @@
 
             //chart setup
 
-            var chartObject = {
-                title: { text: "Currency Rating" },
+            var chartEth = {
+                title: { text: "Ethernium Rating" },
                 data: []
             }
 
-            var chart = new CanvasJS.Chart("chartContainer", chartObject);
+            var chartBtc = {
+                title: { text: "BitCoin Rating" },
+                data: []
+            }
+
+            var chartLtc = {
+                title: { text: "LiteCion Rating" },
+                data: []
+            }
+
+            //var chartAll = new CanvasJS.Chart("chartContainer", chartObject);
+            var ethChart = new CanvasJS.Chart("chartEth", chartEth);
+            var btcChart = new CanvasJS.Chart("chartBtc", chartBtc);
+            var ltcChart = new CanvasJS.Chart("chartLtc", chartLtc);
 
             function initCurrencyChartObject(currencyName, colorHex) {
                 var rateObject = {
@@ -84,10 +99,10 @@
                 }
                 return rateObject;
             }
-
+        
             // init currency rates on chart
 
-            function updateDatapoints(JSONdata, currencyName, colorHex) {
+            function updateDatapoints(JSONdata, currencyName, colorHex, chart, chartObject) {
                 var rateslist = JSONdata.Data;
                 var rateObject = initCurrencyChartObject(currencyName, colorHex);
                 for (var i = 0; i < rateslist.length; i++) {
@@ -101,11 +116,13 @@
                 chart.render();
             }
 
-            function fillChart(ethUrl, btcUrl, ltcUrl) {
-                chartObject.data = [];
-                httpGetAsync(ethUrl, (data) => updateDatapoints(data, "ETH", "#f2b81e"));
-                httpGetAsync(btcUrl, (data) => updateDatapoints(data, "BTC", "#2d66f1"));
-                httpGetAsync(ltcUrl, (data) => updateDatapoints(data, "LTC", "#ff1493"));
+            function fillChart( ethUrl, btcUrl, ltcUrl) {
+                chartEth.data = [];
+                chartBtc.data = [];
+                chartLtc.data = [];
+                httpGetAsync(ethUrl, (data) => updateDatapoints(data, "ETH", "#f2b81e", ethChart, chartEth));
+                httpGetAsync(btcUrl, (data) => updateDatapoints(data, "BTC", "#2d66f1", btcChart, chartBtc));
+                httpGetAsync(ltcUrl, (data) => updateDatapoints(data, "LTC", "#ff1493", ltcChart, chartLtc));
             }
 
             function dayRates() {
@@ -241,10 +258,12 @@
             }
 
             function clearChart() {
-                chartObject.data = [];
-                chartObject.data.push(initCurrencyChartObject("ETH", "#f2b81e"));
-                chartObject.data.push(initCurrencyChartObject("BTC", "#2d66f1"));
-                chartObject.data.push(initCurrencyChartObject("LTC", "#ff1493"));
+                chartEth.data = [];
+                chartBtc.data = [];
+                chartLtc.data = [];
+                chartEth.data.push(initCurrencyChartObject("ETH", "#f2b81e"));
+                chartBtc.data.push(initCurrencyChartObject("BTC", "#2d66f1"));
+                chartLtc.data.push(initCurrencyChartObject("LTC", "#ff1493"));
                 
             }
 
@@ -252,29 +271,31 @@
 
                 var currentDate = new Date();
 
-                chartObject.data[0].dataPoints.push({
+                chartEth.data[0].dataPoints.push({
                     x: currentDate.getTime(),
                     y: ethLiveRate
                 });
-                chartObject.data[1].dataPoints.push({
+                chartBtc.data[0].dataPoints.push({
                     x: currentDate.getTime(),
                     y: btcLiveRate
                 });
-                chartObject.data[2].dataPoints.push({
+                chartLtc.data[0].dataPoints.push({
                     x: currentDate.getTime(),
                     y: ltcLiveRate
                 });
 
-                if (chartObject.data[0].dataPoints.length > 60) {
-                    chartObject.data[0].dataPoints.shift();
+                if (chartEth.data[0].dataPoints.length > 60) {
+                    chartEth.data[0].dataPoints.shift();
                 }
-                if (chartObject.data[1].dataPoints.length > 60) {
-                    chartObject.data[1].dataPoints.shift();
+                if (chartBtc.data[0].dataPoints.length > 60) {
+                    chartBtc.data[0].dataPoints.shift();
                 }
-                if (chartObject.data[2].dataPoints.length > 60) {
-                    chartObject.data[2].dataPoints.shift();
+                if (chartLtc.data[0].dataPoints.length > 60) {
+                    chartLtc.data[0].dataPoints.shift();
                 }
-                chart.render();
+                ethChart.render();
+                btcChart.render();
+                ltcChart.render();
             };
 
             var intrval;
@@ -294,7 +315,7 @@
                 minuteRates();
             });
             $('#live').click(function () {
-                clearInterval(intrval);
+                //clearInterval(intrval);
                 clearChart();
                 intrval = setInterval(liveUpdateChart, 1000);
             });
