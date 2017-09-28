@@ -17,7 +17,12 @@
                 {
                     if (i != j)
                     {
-                        <td><span id=@i@j></span> @Model.GetValue(j).ToString().ToUpper()</td>
+                        <td><span id=@i@j></span> @Model.GetValue(j).ToString().ToUpper() 
+                            @if (Context.User.Identity.IsAuthenticated)
+                            {
+                              <button style="float: right;" align="right">Buy</button>
+                            }
+                        </td>                                                    
                     }
                 }
             </tr>
