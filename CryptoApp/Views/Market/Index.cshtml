@@ -32,8 +32,8 @@
     </table>
     
     <div>
-        <button id="month" type="button" class="btn btn-primary active">Month</button>
-        <button id="week" type="button" class="btn btn-primary active">Week</button>
+        <button id="month" type="button" class="btn btn-primary active" disabled>Month</button>
+        <button id="week" type="button" class="btn btn-primary active" disabled>Week</button>
         <button id="day" type="button" class="btn btn-primary active">Day</button>
         <button id="hour" type="button" class="btn btn-primary active">Hour</button>
         <button id="minute" type="button" class="btn btn-primary active">Minute</button>
@@ -92,17 +92,17 @@
             //chart setup
 
             var chartEth = {
-                title: { text: "Ethernium Rating" },
+                title: { text: "Ethereum in €" },
                 data: []
             }
 
             var chartBtc = {
-                title: { text: "BitCoin Rating" },
+                title: { text: "BitCoin in €" },
                 data: []
             }
 
             var chartLtc = {
-                title: { text: "LiteCion Rating" },
+                title: { text: "LiteCoin in €" },
                 data: []
             }
 
