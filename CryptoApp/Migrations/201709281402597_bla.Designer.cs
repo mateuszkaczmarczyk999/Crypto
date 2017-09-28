@@ -7,13 +7,13 @@ namespace CryptoApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class cleanStart : IMigrationMetadata
+    public sealed partial class bla : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(cleanStart));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(bla));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709151257149_cleanStart"; }
+            get { return "201709281402597_bla"; }
         }
         
         string IMigrationMetadata.Source

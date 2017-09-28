@@ -3,7 +3,7 @@ namespace CryptoApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class cleanStart : DbMigration
+    public partial class bla : DbMigration
     {
         public override void Up()
         {
