@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using CryptoApp.Models;
+﻿using CryptoApp.Models;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 
 namespace CryptoApp.Hubs
 {
     public class MarketHub : Hub
     {
-        private readonly TestMarket _market;
+        private readonly Market _market;
 
-        public MarketHub() : this(TestMarket.GetInstance()) { }
+        public MarketHub() : this(Market.GetInstance()) { }
 
-        public MarketHub(TestMarket market)
+        public MarketHub(Market market)
         {
             _market = market;
         }
-        
+
     }
 }
