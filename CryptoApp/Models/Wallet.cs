@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CryptoApp.Errors;
 using CryptoRatesProvider.Enums;
-using CryptoApp.Errors;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace CryptoApp.Models
 {
@@ -13,23 +13,28 @@ namespace CryptoApp.Models
         public Wallet(bool isRegistered)
         {
             MyFunds = new List<Currency>();
+
             foreach (var currencySignature in Enum.GetValues(typeof(CurrencySignature)).Cast<CurrencySignature>())
-                MyFunds.Add(new Currency{CurrencySignature = currencySignature, Value = 0.0m});
+            {
+                MyFunds.Add(currencySignature == CurrencySignature.Eur
+                    ? new Currency { CurrencySignature = currencySignature, Value = 10000.0m }
+                    : new Currency { CurrencySignature = currencySignature, Value = 0.0m });
+            }
         }
 
         public Wallet()
         {
-          
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public virtual List<Currency> MyFunds { get; set; }
 
         public bool HasEnoughFunds(CurrencySignature toSell, decimal quantity)
         {
-            return MyFunds.Find(x => x.CurrencySignature==toSell).Value >= quantity;
+            return MyFunds.Find(x => x.CurrencySignature == toSell).Value >= quantity;
         }
 
         public void SubstractFunds(CurrencySignature toSell, decimal quantity)
