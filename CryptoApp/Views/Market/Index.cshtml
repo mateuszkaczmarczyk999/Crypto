@@ -128,7 +128,8 @@
 
             function initCurrencyChartObject(currencyName, colorHex) {
                 var rateObject = {
-                    type: "line",
+                    type: "area",
+                    fillOpacity: .3, 
                     xValueType: "dateTime",
                     showInLegend: true,
                     lineThickness: 2,
@@ -215,18 +216,21 @@
             }
 
             function initEurRow(data) {
-                var eth = formatRates(data.ETH);
-                var btc = formatRates(data.BTC);
-                var ltc = formatRates(data.LTC);
+                var eth = data.ETH;
+                ethLiveRate = data.ETH;
+                var btc = data.BTC;
+                btcLiveRate = data.BTC;
+                var ltc = data.LTC;
+                ltcLiveRate = data.LTC;
                 $('#01').text(eth);
                 $('#02').text(btc);
                 $('#03').text(ltc);
             }
 
             function initEthRow(data) {
-                var eur = formatRates(data.EUR);
-                var btc = formatRates(data.BTC);
-                var ltc = formatRates(data.LTC);
+                var eur = formatRates(data.EUR, 10);
+                var btc = formatRates(data.BTC, 10);
+                var ltc = formatRates(data.LTC, 10);
                 $('#10').text(eur);
                 $('#12').text(btc);
                 $('#13').text(ltc);
@@ -234,9 +238,9 @@
             }
 
             function initBtcRow(data) {
-                var eur = formatRates(data.EUR);
-                var eth = formatRates(data.ETH);
-                var ltc = formatRates(data.LTC);
+                var eur = formatRates(data.EUR, 10);
+                var eth = formatRates(data.ETH, 10);
+                var ltc = formatRates(data.LTC, 10);
                 $('#20').text(eur);
                 $('#21').text(eth);
                 $('#23').text(ltc);
@@ -244,17 +248,17 @@
             }
 
             function initLtcRow(data) {
-                var eur = formatRates(data.EUR);
-                var eth = formatRates(data.ETH);
-                var btc = formatRates(data.BTC);
+                var eur = formatRates(data.EUR, 10);
+                var eth = formatRates(data.ETH, 10);
+                var btc = formatRates(data.BTC, 10);
                 $('#30').text(eur);
                 $('#31').text(eth);
                 $('#32').text(btc);
                 ltcLiveRate = eur;
             }
 
-            function formatRates(value) {
-                return parseFloat(Math.round(value * 100) / 100).toFixed(5);
+            function formatRates(value, numberFix) {
+                return parseFloat(Math.round(value * 100) / 100).toFixed(numberFix);
             }
 
             //real time table update
@@ -290,9 +294,9 @@
                     first_arrow = ' ';
                     second_arrow = ' ';
                 }
-                var first_value = formatRates(currencyRateArg.Value);
+                var first_value = formatRates(currencyRateArg.Value, 10);
                 var first_id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
-                var second_value = formatRates(1 / currencyRateArg.Value);
+                var second_value = formatRates(1 / currencyRateArg.Value, 10);
                 var second_id = currencyRateArg.ChangeTo.toString() + currencyRateArg.ChangeFrom.toString();
 
                 $('#' + first_id).text(first_value + ' ' + first_arrow);
@@ -345,24 +349,28 @@
             $('#week').click(() => alert("week"));
             $('#day').click(function () {
                 clearInterval(intrval);
+                clearChart();
                 dayRates();
             });
             $('#hour').click(function () {
                 clearInterval(intrval);
+                clearChart();
                 hourRates();
             });
             $('#minute').click(function () {
                 clearInterval(intrval);
+                clearChart();
                 minuteRates();
             });
             $('#live').click(function () {
-                //clearInterval(intrval);
+                clearInterval(intrval);
                 clearChart();
-                intrval = setInterval(liveUpdateChart, 1000);
+                intrval = setInterval(liveUpdateChart, 2500);
             });
 
             $.connection.hub.start().done(function () {
                 clearInterval(intrval);
+                clearChart();
                 initRates();
                 dayRates();
             });
