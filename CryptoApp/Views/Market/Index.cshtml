@@ -228,9 +228,9 @@
             }
 
             function initEthRow(data) {
-                var eur = formatRates(data.EUR, 10);
-                var btc = formatRates(data.BTC, 10);
-                var ltc = formatRates(data.LTC, 10);
+                var eur = formatRates(data.EUR, 6);
+                var btc = formatRates(data.BTC, 6);
+                var ltc = formatRates(data.LTC, 6);
                 $('#10').text(eur);
                 $('#12').text(btc);
                 $('#13').text(ltc);
@@ -238,9 +238,9 @@
             }
 
             function initBtcRow(data) {
-                var eur = formatRates(data.EUR, 10);
-                var eth = formatRates(data.ETH, 10);
-                var ltc = formatRates(data.LTC, 10);
+                var eur = formatRates(data.EUR, 6);
+                var eth = formatRates(data.ETH, 6);
+                var ltc = formatRates(data.LTC, 6);
                 $('#20').text(eur);
                 $('#21').text(eth);
                 $('#23').text(ltc);
@@ -248,9 +248,9 @@
             }
 
             function initLtcRow(data) {
-                var eur = formatRates(data.EUR, 10);
-                var eth = formatRates(data.ETH, 10);
-                var btc = formatRates(data.BTC, 10);
+                var eur = formatRates(data.EUR, 6);
+                var eth = formatRates(data.ETH, 6);
+                var btc = formatRates(data.BTC, 6);
                 $('#30').text(eur);
                 $('#31').text(eth);
                 $('#32').text(btc);
@@ -258,7 +258,7 @@
             }
 
             function formatRates(value, numberFix) {
-                return parseFloat(Math.round(value * 100) / 100).toFixed(numberFix);
+                return parseFloat(Math.round(value * 1000000) / 1000000).toFixed(numberFix);
             }
 
             //real time table update
@@ -294,9 +294,9 @@
                     first_arrow = ' ';
                     second_arrow = ' ';
                 }
-                var first_value = formatRates(currencyRateArg.Value, 10);
+                var first_value = formatRates(currencyRateArg.Value, 6);
                 var first_id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
-                var second_value = formatRates(1 / currencyRateArg.Value, 10);
+                var second_value = formatRates(1 / currencyRateArg.Value, 6);
                 var second_id = currencyRateArg.ChangeTo.toString() + currencyRateArg.ChangeFrom.toString();
 
                 $('#' + first_id).text(first_value + ' ' + first_arrow);
