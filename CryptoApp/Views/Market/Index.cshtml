@@ -93,16 +93,31 @@
 
             var chartEth = {
                 title: { text: "Ethereum in €" },
+                axisX:{
+                    title : "Time"
+                },
+                axisY:{
+                    title: "Euro",
+                    includeZero: false
+                },
                 data: []
             }
 
             var chartBtc = {
                 title: { text: "BitCoin in €" },
+                axisY: {
+                    title: "Euro",
+                    includeZero: false
+                },
                 data: []
             }
 
             var chartLtc = {
                 title: { text: "LiteCoin in €" },
+                axisY: {
+                    title: "Euro",
+                    includeZero: false
+                },
                 data: []
             }
 
@@ -200,18 +215,18 @@
             }
 
             function initEurRow(data) {
-                var eth = data.ETH;
-                var btc = data.BTC;
-                var ltc = data.LTC;
+                var eth = formatRates(data.ETH);
+                var btc = formatRates(data.BTC);
+                var ltc = formatRates(data.LTC);
                 $('#01').text(eth);
                 $('#02').text(btc);
                 $('#03').text(ltc);
             }
 
             function initEthRow(data) {
-                var eur = data.EUR;
-                var btc = data.BTC;
-                var ltc = data.LTC;
+                var eur = formatRates(data.EUR);
+                var btc = formatRates(data.BTC);
+                var ltc = formatRates(data.LTC);
                 $('#10').text(eur);
                 $('#12').text(btc);
                 $('#13').text(ltc);
@@ -219,9 +234,9 @@
             }
 
             function initBtcRow(data) {
-                var eur = data.EUR;
-                var eth = data.ETH;
-                var ltc = data.LTC;
+                var eur = formatRates(data.EUR);
+                var eth = formatRates(data.ETH);
+                var ltc = formatRates(data.LTC);
                 $('#20').text(eur);
                 $('#21').text(eth);
                 $('#23').text(ltc);
@@ -229,15 +244,18 @@
             }
 
             function initLtcRow(data) {
-                var eur = data.EUR;
-                var eth = data.ETH;
-                var btc = data.BTC;
+                var eur = formatRates(data.EUR);
+                var eth = formatRates(data.ETH);
+                var btc = formatRates(data.BTC);
                 $('#30').text(eur);
                 $('#31').text(eth);
                 $('#32').text(btc);
                 ltcLiveRate = eur;
             }
 
+            function formatRates(value) {
+                return parseFloat(Math.round(value * 100) / 100).toFixed(5);
+            }
 
             //real time table update
 
@@ -272,9 +290,9 @@
                     first_arrow = ' ';
                     second_arrow = ' ';
                 }
-                var first_value = currencyRateArg.Value;
+                var first_value = formatRates(currencyRateArg.Value);
                 var first_id = currencyRateArg.ChangeFrom.toString() + currencyRateArg.ChangeTo.toString();
-                var second_value = 1 / currencyRateArg.Value;
+                var second_value = formatRates(1 / currencyRateArg.Value);
                 var second_id = currencyRateArg.ChangeTo.toString() + currencyRateArg.ChangeFrom.toString();
 
                 $('#' + first_id).text(first_value + ' ' + first_arrow);
@@ -288,7 +306,6 @@
                 chartEth.data.push(initCurrencyChartObject("ETH", "#f2b81e"));
                 chartBtc.data.push(initCurrencyChartObject("BTC", "#2d66f1"));
                 chartLtc.data.push(initCurrencyChartObject("LTC", "#ff1493"));
-
             }
 
             var liveUpdateChart = function () {
