@@ -308,13 +308,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MarketHub.cs" />
-    <Compile Include="Migrations\201709282208550_InitialMigration.cs" />
-    <Compile Include="Migrations\201709282208550_InitialMigration.Designer.cs">
-      <DependentUpon>201709282208550_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709282214451_AddPrecisionToCurrencyValue.cs" />
-    <Compile Include="Migrations\201709282214451_AddPrecisionToCurrencyValue.Designer.cs">
-      <DependentUpon>201709282214451_AddPrecisionToCurrencyValue.cs</DependentUpon>
+    <Compile Include="Migrations\201709290715191_FreshStart.cs" />
+    <Compile Include="Migrations\201709290715191_FreshStart.Designer.cs">
+      <DependentUpon>201709290715191_FreshStart.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -420,11 +416,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709282208550_InitialMigration.resx">
-      <DependentUpon>201709282208550_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709282214451_AddPrecisionToCurrencyValue.resx">
-      <DependentUpon>201709282214451_AddPrecisionToCurrencyValue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709290715191_FreshStart.resx">
+      <DependentUpon>201709290715191_FreshStart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

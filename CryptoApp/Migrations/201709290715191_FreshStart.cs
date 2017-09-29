@@ -3,7 +3,7 @@ namespace CryptoApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class FreshStart : DbMigration
     {
         public override void Up()
         {
@@ -13,7 +13,7 @@ namespace CryptoApp.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         CurrencySignature = c.Int(nullable: false),
-                        Value = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Value = c.Decimal(nullable: false, precision: 38, scale: 19),
                         Wallet_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
