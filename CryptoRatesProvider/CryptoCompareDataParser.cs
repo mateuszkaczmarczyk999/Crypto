@@ -38,7 +38,7 @@ namespace CryptoRatesProvider
 
         private RatesEventArgs ParseDataAfterLoadComplete(string data)
         {
-            return data[PriceActionFlagStrIdx] == PriceUnchangedFlag ? null : EventArgsFromData(data);
+            return data.Length > PriceActionFlagStrIdx && data[PriceActionFlagStrIdx] == PriceUnchangedFlag ? null : EventArgsFromData(data);
         }
 
         private RatesEventArgs EventArgsFromData(string data)
