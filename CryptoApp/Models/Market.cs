@@ -21,7 +21,16 @@ namespace CryptoApp.Models
         {
             _clients = clients;
             var numberOfCurrencies = Enum.GetNames(typeof(CurrencySignature)).Length;
-            Rates = new decimal[numberOfCurrencies, numberOfCurrencies];
+            Rates = SetSelfRates(new decimal[numberOfCurrencies, numberOfCurrencies]);
+        }
+
+        private decimal[,] SetSelfRates(decimal[,] rates)
+        {
+            for (var i = 0; i < rates.GetLength(0); i++)
+            {
+                rates[i,i] = 1;
+            }
+            return rates;
         }
 
         public static Market GetInstance()
